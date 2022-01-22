@@ -5,10 +5,8 @@
  */
 package views;
 
-import entities.Consultation;
 import entities.Prestation;
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -17,9 +15,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import services.Service;
@@ -29,9 +27,8 @@ import services.Service;
  *
  * @author LENOVO
  */
-public class PrestationController implements Initializable {
+public class DoPrestationController implements Initializable {
     
-    private Prestation prestationSearch;
     ObservableList<Prestation> obPrestas;
     private Prestation prestaSelected;
     
@@ -46,7 +43,7 @@ public class PrestationController implements Initializable {
     @FXML
     private TableColumn<Prestation, String> tblcStatut;
     @FXML
-    private DatePicker txtdDate;
+    private TextArea txtResultats;
 
     /**
      * Initializes the controller class.
@@ -54,10 +51,10 @@ public class PrestationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Integer id = ConnexionController.getCtrl().getUser().getId();
-        List<Prestation> prestations = service.searchPrestation();
+        List<Prestation> prestations = service.searchPrestationPassed();
         loadTableView(prestations);
-    }    
-
+    }
+    
     private void loadTableView( List<Prestation> listPrestations){
         
         // 1 - conversion de la liste en observableList
@@ -72,6 +69,25 @@ public class PrestationController implements Initializable {
         tblvPrestations.setItems(obPrestas); 
     }
     
+    @FXML
+    private void handleSelectPrestation(MouseEvent event) {
+        prestaSelected = tblvPrestations.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    private void handleDoPrestation(ActionEvent event) {
+        prestaSelected.setResultat(txtResultats.getText());
+        prestaSelected.setStatut("TERMINEE");        
+        
+        if(service.updatePrestation(prestaSelected)){
+            Alert alert =new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Prestation");
+            alert.setContentText("Resultats envoyés avec succes");
+            alert.show();            
+            obPrestas.remove(searchPrestation(prestaSelected));
+        }
+    }
+    
     private int searchPrestation(Prestation prestation){
         int pos=-1;
         for(Prestation presta:obPrestas){
@@ -81,30 +97,6 @@ public class PrestationController implements Initializable {
             }
         }
         return pos;
-    }
-    
-    @FXML
-    private void handleSelectedPrestation(MouseEvent event) {
-        prestaSelected = tblvPrestations.getSelectionModel().getSelectedItem();
-    }
-
-    @FXML
-    private void handleRefusePrestation(ActionEvent event) {
-        prestaSelected.setStatut("ANNULE");
-        if(service.updatePrestation(prestaSelected)){
-            Alert alert =new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Prestation");
-            alert.setContentText("Prestation annulée avec succes");
-            alert.show();            
-            obPrestas.remove(searchPrestation(prestaSelected));
-        }
-    }
-
-    @FXML
-    private void handleSearchPrestation(MouseEvent event) {
-        Date date = java.sql.Date.valueOf(txtdDate.getValue());
-        List<Prestation> prestations = service.searchPrestationByDate(date);
-        loadTableView(prestations);
     }
     
 }

@@ -10,7 +10,7 @@ package entities;
  * @author LENOVO
  */
 public class Patient extends User {
-    private String matricule;
+    private String nci;
     private String antecedents;
     private final String ROLE="ROLE_PATIENT";
 
@@ -20,26 +20,26 @@ public class Patient extends User {
     }
     
     // Update Patient
-    public Patient(int id, String matricule, String antecedents, String nomComplet) {
-        super(id, nomComplet);
-        this.matricule = matricule;
+    public Patient(int id, String nomComplet, String login, String password, String nci, String antecedents) {
+        super(id, nomComplet, login, password);
+        this.nci = nci;
         this.antecedents = antecedents;
     }
     
     // Insert Patient
-    public Patient(String matricule, String antecedents, String nomComplet) {
-        super(nomComplet);
-        this.matricule = matricule;
+    public Patient(String nomComplet, String login, String password, String nci, String antecedents) {
+        super(nomComplet, login, password);
+        this.nci = nci;
         this.antecedents = antecedents;
         this.role=ROLE;
     }
 
-    public String getMatricule() {
-        return matricule;
+    public String getNci() {
+        return nci;
     }
 
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
+    public void setNci(String nci) {
+        this.nci = nci;
     }
 
     public String getAntecedents() {
@@ -56,6 +56,11 @@ public class Patient extends User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    @Override
+    public String toString() {
+        return  nomComplet ;
     }
     
 }

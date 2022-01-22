@@ -5,8 +5,15 @@
  */
 package services;
 
+import entities.Consultation;
+import entities.Medecin;
 import entities.Patient;
+import entities.Prestation;
+import entities.Rdv;
+import entities.TypeMedecin;
+import entities.TypePrestation;
 import entities.User;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -24,7 +31,6 @@ public interface IService {
     public int addPrestation(Prestation prestation);
     public boolean updatePrestation(Prestation prestation);
     public boolean deletePrestation(int id);
-    public List<Prestation> searchAllPrestation();
     public Prestation searchOnePrestation(int id);
     
       
@@ -56,7 +62,40 @@ public interface IService {
     public User login(String login,String password);
     
 /*Creer compte */
-    public User addUser(User u);
+    public int addUser(User u);
     
-    public User addPatient(Patient pat);
+    public int addPatient(Patient pat);
+ 
+/*Demander rdv */
+    public List<TypePrestation> searchAllTypePrestation();
+    public List<TypeMedecin> searchAllTypeMedecin();
+    public int addRdv(Rdv rdv);
+    public List<Rdv> searchRdv(int id);
+    
+/*Valider rdv */
+    public List<Rdv> showAllRdv();
+    public List<Medecin> searchAllMedecinType(String specialite);
+    public boolean updateRdv(Rdv rdv);
+    public int addConsultation(Consultation consultation);
+    public int addPrestation(Prestation prestation);
+    public int countConsultation(int idMedecin, Date date);
+    public int countPrestation(Date date);
+    
+/*Medecin */    
+    public List<Consultation> showAllConsultation();
+    public List<Consultation> searchConsultation(int id);
+    public boolean updateConsultation(Consultation consultation);
+    public List<Consultation> searchConsultationByDate(int idMedecin, Date date);
+    public List<Consultation> searchConsultationOfToday(int idMedecin);
+    public User findUserById(int id);
+    public Patient findPatientById(int id);
+    public List<Consultation> searchConsultationByPatient(int id);
+    public List<Prestation> searchPrestationByPatient(int id);
+ 
+/*RP*/
+    public List<Prestation> searchPrestation();
+    public List<Prestation> searchPrestationByDate(Date date);
+    public boolean updatePrestation(Prestation prestation);
+    public List<Prestation> searchPrestationPassed();
+    public List<Patient> searchAllPatients();
 }

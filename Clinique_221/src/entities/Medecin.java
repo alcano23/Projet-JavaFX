@@ -18,15 +18,15 @@ public class Medecin extends User {
         this.role=ROLE;
     }
 
-    public Medecin(String nci, String specialite, int id, String nomComplet) {
-        super(id, nomComplet);
+    public Medecin( int id, String nomComplet, String login, String password, String nci, String specialite) {
+        super(id, nomComplet, login, password);
         this.nci = nci;
         this.specialite = specialite;
         this.role=ROLE;
     }
 
-    public Medecin(String nci, String specialite, String nomComplet) {
-        super(nomComplet);
+    public Medecin(String nomComplet, String login, String password, String nci, String specialite) {
+        super(nomComplet, login, password);
         this.nci = nci;
         this.specialite = specialite;
         this.role=ROLE;
@@ -52,13 +52,17 @@ public class Medecin extends User {
         this.nci = nci;
     }
 
-    public void setDomaine(String specialite) {
+    public void setSpecialite(String specialite) {
         this.specialite = specialite;
-    }
-
-   
+    }   
 
     public void setRole(String role) {
         this.role = role;
     }
+    
+    @Override
+    public String toString() {
+        return  nomComplet ;
+    }
+    
 }

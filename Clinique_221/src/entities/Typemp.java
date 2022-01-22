@@ -9,44 +9,41 @@ package entities;
  *
  * @author LENOVO
  */
-public class TypeMedecin extends Typemp {
-    private int id;
-    private String libelle;
-
-    public TypeMedecin() {
+public class Typemp {
+    protected int id;
+    protected String libelle;
+    
+    public Typemp() {
     }
 
-    public TypeMedecin(String libelle) {
+    public Typemp(String libelle) {
         this.libelle = libelle;
     }
 
-    public TypeMedecin(int id, String libelle) {
+    public Typemp(int id, String libelle) {
         this.id = id;
         this.libelle = libelle;
     }
 
-    @Override
     public int getId() {
         return id;
     }
 
-    @Override
     public String getLibelle() {
         return libelle;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
     }
 
-    @Override
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
-
+    
     @Override
     public String toString() {
         return  libelle ;
     }
+    
 }

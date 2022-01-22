@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -41,6 +42,7 @@ public class ConnexionController implements Initializable {
     private static ConnexionController ctrl;
     
     private User user;
+    
 
     /**
      * Initializes the controller class.
@@ -81,16 +83,58 @@ public class ConnexionController implements Initializable {
               //Cache la fénétre de connexion
               this.txtError.getScene().getWindow().hide();
               AnchorPane root = null;
-              
-              try {
-                  root = FXMLLoader.load(getClass().getResource("/views/v_home.fxml"));
+              if("ROLE_MEDECIN".equals(user.getRole())){
+                  try {
+                  root = FXMLLoader.load(getClass().getResource("/views/v_homeMedecin.fxml"));
                   Scene scene = new Scene(root);
                   Stage stage = new Stage();
                   stage.setScene(scene);
                   stage.show();
-              } catch (IOException ex) {
-                  Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                  
+              }else{
+                  if("ROLE_SECRETAIRE".equals(user.getRole())){
+                        try {
+                        root = FXMLLoader.load(getClass().getResource("/views/v_homeSecretaire.fxml"));
+                        Scene scene = new Scene(root);
+                        Stage stage = new Stage();
+                        stage.setScene(scene);
+                        stage.show();
+                      } catch (IOException ex) {
+                          Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+                      }
+
+                   }else{
+                      if("ROLE_PATIENT".equals(user.getRole())){
+                            try {
+                            root = FXMLLoader.load(getClass().getResource("/views/v_homePatient.fxml"));
+                            Scene scene = new Scene(root);
+                            Stage stage = new Stage();
+                            stage.setScene(scene);
+                            stage.show();
+                          } catch (IOException ex) {
+                              Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+                          }
+                  
+                        }else{
+                          if("ROLE_RP".equals(user.getRole())){
+                                try {
+                                root = FXMLLoader.load(getClass().getResource("/views/v_homeResponsablePrestation.fxml"));
+                                Scene scene = new Scene(root);
+                                Stage stage = new Stage();
+                                stage.setScene(scene);
+                                stage.show();
+                              } catch (IOException ex) {
+                                  Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+                              }
+
+                            }
+                      }
+                  }
               }
+              
           }
         }
     }
@@ -101,6 +145,22 @@ public class ConnexionController implements Initializable {
 
     public User getUser() {
         return user;
+    }
+
+    @FXML
+    private void switchToNewcompte(MouseEvent event){
+        this.txtError.getScene().getWindow().hide();
+        AnchorPane root= null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/views/v_newcomptePatient.fxml"));
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ConnexionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }

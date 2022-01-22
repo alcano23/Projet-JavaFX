@@ -6,10 +6,8 @@
 package views;
 
 import entities.Consultation;
-import entities.Rdv;
-import entities.User;
+import entities.Patient;
 import java.net.URL;
-import java.sql.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -18,9 +16,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import services.Service;
@@ -30,9 +29,9 @@ import services.Service;
  *
  * @author LENOVO
  */
-public class ConsultationController implements Initializable {
+public class DoConsultationController implements Initializable {
     
-    private Consultation consultationSearch;
+    private Patient patientSearch;    
     ObservableList<Consultation> obConsults;
     private Consultation consultSelected;
     
@@ -41,13 +40,17 @@ public class ConsultationController implements Initializable {
     @FXML
     private TableView<Consultation> tblvConsultations;
     @FXML
-    private TableColumn<Consultation, String> tblcPatient;
-    @FXML
     private TableColumn<Consultation, String> tblcDate;
     @FXML
     private TableColumn<Consultation, String> tblcStatut;
     @FXML
-    private DatePicker txtdDate;
+    private TextArea txtAntecedents;
+    @FXML
+    private TextField txtNomComplet;
+    @FXML
+    private TextArea txtOrdonnance;
+    @FXML
+    private TextField txtPrestation;
 
     /**
      * Initializes the controller class.
@@ -55,22 +58,53 @@ public class ConsultationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         Integer id = ConnexionController.getCtrl().getUser().getId();
-        List<Consultation> consultations = service.searchConsultation(id);
+        List<Consultation> consultations = service.searchConsultationOfToday(id);
         loadTableView(consultations);
+        disableFields(true);
     }    
-    
+
     private void loadTableView( List<Consultation> listConsultations){
         
         // 1 - conversion de la liste en observableList
         obConsults = FXCollections.
                 observableArrayList(listConsultations);
         // 2 construction des colums
-        tblcPatient.setCellValueFactory(new PropertyValueFactory<>("patient"));
         tblcDate.setCellValueFactory(new PropertyValueFactory<>("date"));
         tblcStatut.setCellValueFactory(new PropertyValueFactory<>("statut"));
         
         // 3 l'abonnement de la tableView a obv
         tblvConsultations.setItems(obConsults); 
+    }
+    
+    @FXML
+    private void handleSelectedConsultation(MouseEvent event) {
+        consultSelected = tblvConsultations.getSelectionModel().getSelectedItem();
+        patientSearch = service.findPatientById(consultSelected.getPatient());
+
+        
+        txtNomComplet.setText(patientSearch.getNomComplet());
+        txtAntecedents.setText(patientSearch.getAntecedents());
+        
+    }
+    
+    private void disableFields(boolean value ){
+          txtNomComplet.setDisable(value);
+          txtAntecedents.setDisable(value);    
+    }
+
+    @FXML
+    private void handleTerminerConsultation(ActionEvent event) {
+        consultSelected.setOrdonnance(txtOrdonnance.getText());
+        consultSelected.setPrestation(txtPrestation.getText());
+        consultSelected.setStatut("TERMINEE");        
+        
+        if(service.updateConsultation(consultSelected)){
+            Alert alert =new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Consultation");
+            alert.setContentText("Consultation terminée avec succes");
+            alert.show();            
+            obConsults.remove(searchConsultation(consultSelected));
+        }
     }
     
     private int searchConsultation(Consultation consultation){
@@ -85,29 +119,8 @@ public class ConsultationController implements Initializable {
     }
 
     @FXML
-    private void handleAnnulerConsultation(ActionEvent event) {
-        consultSelected.setStatut("ANNULE");
-        if(service.updateConsultation(consultSelected)){
-            Alert alert =new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Consultation");
-            alert.setContentText("Consultation annulée avec succes");
-            alert.show();            
-            obConsults.remove(searchConsultation(consultSelected));
-        }
+    private void handleClearFields(ActionEvent event) {
+        txtOrdonnance.clear();
+        txtPrestation.clear();
     }
-
-    @FXML
-    private void handleSearchConsultaionByDate(MouseEvent event) {
-        Integer idMedecin = ConnexionController.getCtrl().getUser().getId();
-        Date date = java.sql.Date.valueOf(txtdDate.getValue());
-        List<Consultation> consultations = service.searchConsultationByDate(idMedecin ,date);
-        loadTableView(consultations);
-        
-    }
-
-    @FXML
-    private void handleSelectConsultation(MouseEvent event) {
-        consultSelected = tblvConsultations.getSelectionModel().getSelectedItem();
-    }
-    
 }

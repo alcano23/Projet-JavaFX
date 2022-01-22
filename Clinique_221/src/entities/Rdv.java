@@ -5,6 +5,8 @@
  */
 package entities;
 
+import java.sql.Date;
+
 /**
  *
  * @author LENOVO
@@ -12,10 +14,11 @@ package entities;
 public class Rdv {
     private int id;
     private String statut;
-    private String typeMedecin;
-    private String typePrestation;
+    private String service;
+    private Typemp typemp;
+    private Date date;    
     
-    private Patient patient;
+    private int patient;
 
     public Rdv() {
     }
@@ -23,12 +26,20 @@ public class Rdv {
     public Rdv(String statut) {
         this.statut = statut;
     }
+    
+    public Rdv(String service, Typemp typemp, Date date, int patient) {
+        this.service = service;
+        this.typemp = typemp;
+        this.date = date;
+        this.patient = patient;
+    }
 
-    public Rdv(int id, String statut, String typeMedecin, String typePrestation, Patient patient) {
+    public Rdv(int id, String statut, String service, Typemp typemp, Date date, int patient) {
         this.id = id;
         this.statut = statut;
-        this.typeMedecin = typeMedecin;
-        this.typePrestation = typePrestation;
+        this.service = service;
+        this.typemp = typemp;
+        this.date = date;
         this.patient = patient;
     }
 
@@ -40,36 +51,46 @@ public class Rdv {
         this.id = id;
     }
 
-    public String getStatus() {
+    public String getStatut() {
         return statut;
     }
 
-    public void setStatus(String statut) {
+    public void setStatut(String statut) {
         this.statut = statut;
     }
 
-    public String getTypeMedecin() {
-        return typeMedecin;
+    public Typemp getTypemp() {
+        return typemp;
     }
 
-    public void setTypeMedecin(String typeMedecin) {
-        this.typeMedecin = typeMedecin;
+    public void setTypemp(Typemp typemp) {
+        this.typemp = typemp;
     }
-
-    public String getTypePrestation() {
-        return typePrestation;
-    }
-
-    public void setTypePrestation(String typePrestation) {
-        this.typePrestation = typePrestation;
-    }
-
-    public Patient getPatient() {
+    
+    public int getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(int patient) {
         this.patient = patient;
     }
+
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+    
+    
     
 }

@@ -8,6 +8,7 @@ package dao;
 import entities.Medecin;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,11 +20,15 @@ import java.util.logging.Logger;
 public class MedecinDao implements IDao<Medecin>{
     
     private DataBase dataBase = new DataBase();
+    private final String SQL_SELECT_MEDECINS_BY_SPECIALITE =
+            " SELECT * FROM user m WHERE m.specialite LIKE ? ";
+    
     private final String SQL_SELECT_MED_BY_NCI = 
-            " SELECT * FROM user p WHERE nci LIKE ? ";
+            " SELECT * FROM user m WHERE nci LIKE ? ";
+    
     
     private final String SQL_SELECT_ALL = 
-            " SELECT * FROM user p WHERE p.role LIKE 'ROLE_MEDECIN' ";
+            " SELECT * FROM user m WHERE m.role LIKE 'ROLE_MEDECIN' ";
     
     private final String SQL_INSERT = "INSERT INTO `user` "
             + " ( `nom_complet`, `role`, `nci`, `specialite` ) "
@@ -71,6 +76,33 @@ public class MedecinDao implements IDao<Medecin>{
     @Override
     public Medecin findById(int id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public List<Medecin> findBySpecialite(String specialite) {
+        List<Medecin> medecins = new ArrayList(); 
+        dataBase.openConnexion();
+        dataBase.initPrepareStatement(SQL_SELECT_MEDECINS_BY_SPECIALITE);
+        try {
+            dataBase.getPs().setString(1, specialite);
+            ResultSet rs = dataBase.executeSelect(SQL_SELECT_MEDECINS_BY_SPECIALITE);
+            
+            while(rs.next())
+            {
+                Medecin med = new Medecin();
+                med.setId(rs.getInt("id"));
+                med.setNomComplet(rs.getString("nom_complet"));
+                med.setNci(rs.getString("nci"));
+                med.setSpecialite(rs.getString("specialite"));
+                
+                medecins.add(med);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(MedecinDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        dataBase.closeConnexion();
+        
+        return medecins;
     }
     
 }

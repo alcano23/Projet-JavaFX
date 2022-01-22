@@ -19,13 +19,17 @@ public class User {
     public User() {
     }
 //Update Etu,Prof
-    public User(int id, String nomComplet) {
+    public User(int id, String nomComplet, String login, String password) {
         this.id = id;
         this.nomComplet = nomComplet;
+        this.login = login;
+        this.password = password;
     }
 //Insert Etu,Prof
-    public User(String nomComplet) {
+    public User(String nomComplet, String login, String password) {
         this.nomComplet = nomComplet;
+        this.login = login;
+        this.password = password;
     }
     
     

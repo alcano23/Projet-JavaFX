@@ -9,7 +9,7 @@ package entities;
  *
  * @author LENOVO
  */
-public class TypePrestation {
+public class TypePrestation extends Typemp{
     private int id;
     private String libelle;
 
@@ -25,18 +25,22 @@ public class TypePrestation {
         this.libelle = libelle;
     }
 
+    @Override
     public int getId() {
         return id;
     }
 
+    @Override
     public String getLibelle() {
         return libelle;
     }
 
+    @Override
     public void setId(int id) {
         this.id = id;
     }
 
+    @Override
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }

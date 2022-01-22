@@ -25,7 +25,7 @@
          </font>
       </Text>
       <Button layoutX="461.0" layoutY="277.0" mnemonicParsing="false" onAction="#HandleConnexion" text="Connexion" />
-      <Text fill="WHITE" layoutX="289.0" layoutY="341.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Créer un compte" />
+      <Text fill="WHITE" layoutX="289.0" layoutY="341.0" onMouseClicked="#switchToNewcompte" strokeType="OUTSIDE" strokeWidth="0.0" text="Créer un compte" />
       <Text fill="WHITE" layoutX="134.0" layoutY="235.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mot de passe" />
       <Text fill="WHITE" layoutX="134.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Login" />
       <TextField fx:id="txtpPassword" layoutX="216.0" layoutY="215.0" prefHeight="31.0" prefWidth="236.0" />

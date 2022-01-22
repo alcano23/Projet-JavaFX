@@ -23,10 +23,10 @@ public class TypePrestationDao implements IDao<TypePrestation>{
     
     /*Request sql*/
     private final String SQL_INSERT="INSERT INTO `typeprestation` (`libelle`) VALUES (?)";
-    private final String SQL_UPDATE="UPDATE `typeprestation` SET `libelle`=? WHERE `id_typePrestation`= ?";
-    private final String SQL_DELETE="Delete from typeprestation where id_typePrestation=?";
+    private final String SQL_UPDATE="UPDATE `typeprestation` SET `libelle`=? WHERE `id`= ?";
+    private final String SQL_DELETE="Delete from typeprestation where id=?";
     private final String SQL_ALL=" SELECT * FROM typeprestation";
-    private final String SQL_BY_ID="SELECT * FROM `typeprestation` WHERE id_typePrestation=?";
+    private final String SQL_BY_ID="SELECT * FROM `typeprestation` WHERE id=?";
     
 
     @Override
@@ -71,7 +71,7 @@ public class TypePrestationDao implements IDao<TypePrestation>{
             while(rs.next()){
                 try {
                     //Mapping relation vers objet
-                    TypePrestation tp =new TypePrestation(rs.getInt("id_typePrestation"),rs.getString("libelle"));
+                    TypePrestation tp =new TypePrestation(rs.getInt("id"),rs.getString("libelle"));
                     typePrestations.add(tp);
                 } catch (SQLException ex) {
                     Logger.getLogger(TypePrestationDao.class.getName()).log(Level.SEVERE, null, ex);

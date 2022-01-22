@@ -23,10 +23,10 @@ public class TypeMedecinDao implements IDao<TypeMedecin>{
     
     /*Request sql*/
     private final String SQL_INSERT="INSERT INTO `typemedecin` (`libelle`) VALUES (?)";
-    private final String SQL_UPDATE="UPDATE `typemedecin` SET `libelle`=? WHERE `id_typeMedecin`= ?";
-    private final String SQL_DELETE="Delete from typemedecin where id_typeMedecin=?";
+    private final String SQL_UPDATE="UPDATE `typemedecin` SET `libelle`=? WHERE `id`= ?";
+    private final String SQL_DELETE="Delete from typemedecin where id=?";
     private final String SQL_ALL=" SELECT * FROM typemedecin";
-    private final String SQL_BY_ID="SELECT * FROM `typemedecin` WHERE id_typeMedecin=?";
+    private final String SQL_BY_ID="SELECT * FROM `typemedecin` WHERE id=?";
     
     @Override
     public int insert(TypeMedecin typeMedecin) {
@@ -70,7 +70,7 @@ public class TypeMedecinDao implements IDao<TypeMedecin>{
             while(rs.next()){
                 try {
                     //Mapping relation vers objet
-                    TypeMedecin tm =new TypeMedecin(rs.getInt("id_typeMedecin"),rs.getString("libelle"));
+                    TypeMedecin tm =new TypeMedecin(rs.getInt("id"),rs.getString("libelle"));
                     typeMedecins.add(tm);
                 } catch (SQLException ex) {
                     Logger.getLogger(TypeMedecinDao.class.getName()).log(Level.SEVERE, null, ex);

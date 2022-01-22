@@ -13,16 +13,18 @@ import java.sql.Date;
  */
 public class Prestation {
     private int id;
+    private String libelle;
     private String statut;
     private String resultat;
     private Date date;
     
-    private Patient patient;
+    private int patient;
 
     public Prestation() {
     }
 
-    public Prestation(int id, String statut, String resultat, Date date, Patient patient) {
+    public Prestation(int id, String statut, String resultat, Date date, int patient, String libelle) {
+        this.libelle = libelle;
         this.id = id;
         this.statut = statut;
         this.resultat = resultat;
@@ -30,9 +32,17 @@ public class Prestation {
         this.patient = patient;
     }
 
-    public Prestation(String statut, String resultat, Date date, Patient patient) {
+    public Prestation(String statut, String resultat, Date date, int patient, String libelle) {
+        this.libelle = libelle;
         this.statut = statut;
         this.resultat = resultat;
+        this.date = date;
+        this.patient = patient;
+    }
+    
+    public Prestation(String statut, Date date, int patient, String libelle) {
+        this.libelle = libelle;
+        this.statut = statut;
         this.date = date;
         this.patient = patient;
     }
@@ -70,15 +80,20 @@ public class Prestation {
         this.date = date;
     }
 
-    public Patient getPatient() {
+    public int getPatient() {
         return patient;
     }
 
-    public void setPatient(Patient patient) {
+    public void setPatient(int patient) {
         this.patient = patient;
     }
-    
-    
-    
-    
+
+    public String getLibelle() {
+        return libelle;
+    }
+
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
+        
 }
